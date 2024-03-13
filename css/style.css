@@ -67,6 +67,19 @@ main {
     animation: fadeIn 1s ease-out;
 }
 
+.card__icons {
+    cursor: pointer;
+}
+
+.card__icons a {
+    transition: all 250ms ease;
+}
+
+.card__icons a:hover {
+    color: var(--purple)!important;
+    opacity: 1;
+    margin-bottom: 5px;
+}
 
 @keyframes fadeIn {
     from {

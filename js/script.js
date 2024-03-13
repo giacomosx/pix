@@ -3,8 +3,7 @@ window.onload = () => {
     
     getPix('random') 
     .then(res => {
-        console.log(res);
-        document.querySelector('.spinner').remove();
+        console.log(res);     
         res.map(photo => createCard(photo))
     })
 }
@@ -12,14 +11,13 @@ window.onload = () => {
 document.querySelector('.searchbar__button').addEventListener('click', () => {
     document.querySelectorAll('.col').forEach(col => col.remove());
     
-    loader()
+    loader();
     
     let input = document.querySelector('.searchbar input').value.trim();
-    let query = input !== '' ? input : 'random';
+    let query = input === '' ? 'random' : input;
     
     getPix(query)
     .then(res => {
-        document.querySelector('.spinner').remove();
         if (document.querySelector('.notFoundContainer')){
             document.querySelector('.notFoundContainer').remove();
         }
@@ -30,6 +28,8 @@ document.querySelector('.searchbar__button').addEventListener('click', () => {
             res.map(photo => createCard(photo))
         }
     })
+
+    document.querySelector('.searchbar input').value = '';
     
 })
 
@@ -49,7 +49,7 @@ const loader = () => {
 }
 
 const getPix = async (query) => {
-    let url = `https://api.pexels.com/v1/search?query=${query}`
+    let url = `https://api.pexels.com/v1/search?query=${query}&per_page=24`
     const APIKEY = 'R2M3pz0pjrO0pa5zHTD1dxngNbQ8XUgokfi2YyIiskKChv9IwtlHnT3V';
     try {
         const response = await fetch(url, {
@@ -62,6 +62,8 @@ const getPix = async (query) => {
 
     } catch (error) {
         console.log(error);
+    } finally {
+        document.querySelector('.spinner').remove();
     }
 }
 
@@ -72,14 +74,16 @@ const createCard = (photo) => {
     col.classList.add('col');
 
     const card = /* HTML */`
-        <div class="card overflow-hidden ">
-            <img src="${photo.src.tiny}" alt="${photo.alt}" class="object-fit-cover card-img">
-            <div class="card-img-overlay bg-black text-white rounded-top-0">
-                <div class="card-text top-50 position-absolute ">
-                    <p>${photo.alt}</p>
+                <div class="card overflow-hidden ">
+                    <img src="${photo.src.tiny}" alt="${photo.alt}" class="object-fit-cover card-img">
+                    <div class="card-img-overlay bg-black text-white rounded-top-0 p-0">
+                        <div class="d-flex bottom-0 position-absolute justify-content-between w-100 px-4 py-2 card__icons align-items-end ">
+                            <a role="button" class="text-white fs-4 "><i class="bi bi-heart-fill"></i></a>
+                            <a class="text-white fs-4 download-link" onclick="downloadImage('${photo.src.original}', 'image.jpeg')"><i class="bi bi-download"></i></a>
+                        </div>
+                        <p class="px-3 py-2 small">Ph. <a href="${photo.photographer_url}" class="text-white " target="_blank">${photo.photographer}</a></p>
+                    </div>
                 </div>
-            </div>
-        </div>
     `; 
     col.innerHTML = card
 
@@ -100,4 +104,15 @@ const notFound = () => {
     `;
 
     document.querySelector('.helper-container').append(notFoundContainer)
+}
+
+const downloadImage = (url, filename) => {
+    fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+        const anchor = document.createElement('a');
+        anchor.href = URL.createObjectURL(blob);
+        anchor.download = filename;
+        anchor.click()
+    })
 }
