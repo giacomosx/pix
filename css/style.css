@@ -1,0 +1,53 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+
+:root {
+    --purple : #8046FD;
+    --purple--hover: #7F27FF;
+}
+
+main {
+    min-height: 100%;
+}
+
+.nav-link:hover {
+    color: var(--purple)!important;
+}
+
+.searchbar {
+    max-width: 767px;
+}
+
+.searchbar input[type=text]:focus {
+    outline: 1px solid var(--purple)!important;
+}
+
+.searchbar__button {
+    background-color: var(--purple);
+    color: white;
+    transition: all 500ms ease;
+}
+
+.searchbar__button:hover, .searchbar__button:focus {
+    background-color: var(--purple--hover);
+    scale: 1.05;
+    color: white;
+}
+
+.card-img-overlay {
+    transition: all 500ms ease;
+    opacity: 0;
+}
+
+.card {
+    transition: all 500ms ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 10px #ccc ;
+    scale: 1.05;
+}
+
+.card:hover .card-img-overlay {
+    opacity: 0.75;
+}
