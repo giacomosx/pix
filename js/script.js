@@ -1,30 +1,51 @@
 window.onload = () => {
-    // loader();
-    getPix('random').then(res => res.map(photo => createCard(photo)))
+    loader()
+    
+    getPix('random') 
+    .then(res => {
+        console.log(res);
+        document.querySelector('.spinner').remove();
+        res.map(photo => createCard(photo))
+    })
 }
 
 document.querySelector('.searchbar__button').addEventListener('click', () => {
     document.querySelectorAll('.col').forEach(col => col.remove());
     
-    let query = document.querySelector('.searchbar input').value;
+    loader()
+    
+    let input = document.querySelector('.searchbar input').value.trim();
+    let query = input !== '' ? input : 'random';
+    
+    getPix(query)
+    .then(res => {
+        document.querySelector('.spinner').remove();
+        if (document.querySelector('.notFoundContainer')){
+            document.querySelector('.notFoundContainer').remove();
+        }
 
-    getPix(query).then(res => res.map(photo => createCard(photo)))
+        if (res.length === 0 ) {
+            notFound()
+        } else {
+            res.map(photo => createCard(photo))
+        }
+    })
     
 })
 
 const loader = () => {
-    const loader = document.createElement('div');
-    loader.classList.add('loader');
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinner');
 
-    loader.innerHTML = /* HTML */ `
-        <div class="d-flex justify-content-center">
+    spinner.innerHTML = /* HTML */ `
+        <div class="d-flex align-items-center justify-content-center">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
     `;
     
-    document.getElementById('results').append(loader);
+    document.querySelector('.helper-container').append(spinner);
 }
 
 const getPix = async (query) => {
@@ -45,7 +66,6 @@ const getPix = async (query) => {
 }
 
 const createCard = (photo) => {
-    
     const resultsContainer = document.getElementById('results');
 
     const col = document.createElement('div');
@@ -64,4 +84,20 @@ const createCard = (photo) => {
     col.innerHTML = card
 
     resultsContainer.append(col)
+}
+
+const notFound = () => {
+    const notFoundContainer = document.createElement('div');
+    notFoundContainer.classList.add('notFoundContainer');
+
+    notFoundContainer.innerHTML = /* HTML */ `
+        <div class="alert alert-light" role="alert">
+            <h4 class="alert-heading">I'm sorry!</h4>
+            <p>The search has not produced results</p>
+            <hr>
+            <p class="mb-0">Try with another keyword.</p>
+    </div>
+    `;
+
+    document.querySelector('.helper-container').append(notFoundContainer)
 }
