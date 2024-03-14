@@ -60,7 +60,8 @@ main {
 }
 
 .card:hover .card-img-overlay {
-    opacity: 0.75;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    opacity: 1;
 }
 
 .col {
@@ -76,9 +77,11 @@ main {
 }
 
 .card__icons a:hover {
-    color: var(--purple)!important;
-    opacity: 1;
     margin-bottom: 5px;
+}
+
+.bi-heart-fill {
+    color: var(--purple) !important;
 }
 
 @keyframes fadeIn {
