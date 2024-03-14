@@ -73,14 +73,14 @@ const createCard = (photo) => {
     col.classList.add('col');
 
     const card = /* HTML */`
-                <div class="card overflow-hidden ">
+                <div class="card overflow-hidden">
                     <img src="${photo.src.tiny}" alt="${photo.alt}" class="object-fit-cover card-img">
                     <div class="card-img-overlay text-white rounded-top-0 p-0">
-                        <div class="d-flex bottom-0 position-absolute justify-content-between w-100 px-4 py-2 card__icons align-items-end ">
-                            <a role="button" class="text-white fs-4 heart-button" onclick="saveItem(${photo.id})"><i class="bi bi-heart"></i></a>
-                            <a class="text-white fs-4" onclick="downloadImage('${photo.src.original}', 'image.jpeg')"><i class="bi bi-download"></i></a>
-                        </div>
-                        <p class="px-3 py-2 small">Ph. <a href="${photo.photographer_url}" class="text-white " target="_blank">${photo.photographer}</a></p>
+                        <div class="d-flex bottom-0 position-absolute justify-content-between w-100 px-4 py-2 card__icons align-items-end">
+                        <a role="button" class="text-white fs-4 heart-button" id="${photo.id}" onclick="saveItem(${photo.id})"><i class="bi bi-heart"></i></a>
+                        <a class="text-white fs-4" onclick="downloadImage('${photo.src.original}', 'image.jpeg')"><i class="bi bi-download"></i></a>
+                    </div>
+                    <p class="px-3 py-2 small">Ph. <a href="${photo.photographer_url}" class="text-white " target="_blank">${photo.photographer}</a></p>
                     </div>
                 </div>
     `;
@@ -118,7 +118,9 @@ const downloadImage = (url, filename) => {
 
 
 let temporaryStorage = JSON.parse(localStorage.getItem('pixes')) ? JSON.parse(localStorage.getItem('pixes')) : [];
+
 const saveItem = (idPhoto) => {
+    console.log(idPhoto);
     document.querySelector('.bi-box2-heart').classList.add('shake');
     setTimeout(() => {
         document.querySelector('.bi-box2-heart').classList.remove('shake')

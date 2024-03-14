@@ -89,6 +89,17 @@ main {
     color: var(--purple) !important;
 }
 
+.button--purple--outline {
+    transition: all 300ms ease;
+    border: 1px solid var(--purple);
+    color: var(--purple);
+}
+
+.button--purple--outline:hover {
+    background-color: var(--purple--hover);
+    color: white;
+}
+
 .shake {
     animation: shake 300ms linear;
 }

@@ -1,18 +1,16 @@
-let idPhotos = [JSON.parse(localStorage.getItem('pixes'))]
-console.log(idPhotos);
+let idPhotos = JSON.parse(localStorage.getItem('pixes'))
 window.onload = () => {
-    if (idPhotos[0] !== null) {
+    if (idPhotos !== null) {
         loader()
-        idPhotos.forEach(index =>
-            index.forEach(photo =>
-                getPix(photo.id)
-                    .then(photo => {
-                        if (document.querySelector('.spinner')) {
-                            document.querySelector('.spinner').remove();
-                        }
-                        createCard(photo)
-                    })
-            )
+        idPhotos.forEach((photo =>
+            getPix(photo.id)
+                .then(photo => {
+                    if (document.querySelector('.spinner')) {
+                        document.querySelector('.spinner').remove();
+                    }
+                    createCard(photo)
+                })
+        )
         )
     } else {
         notFound();
@@ -95,9 +93,9 @@ let menuItems = ['Animals', 'Nature', 'Cities', 'Flower', 'People']
 
 menuItems.sort().forEach(item => {
     const dropdownMenu = document.querySelector('.dropdown-menu');
-    
+
     const liElement = document.createElement('li');
-    liElement.innerHTML = `<a class="dropdown-item" role="button">${item}</a>` 
+    liElement.innerHTML = `<a class="dropdown-item" role="button">${item}</a>`
 
     dropdownMenu.append(liElement);
 })
@@ -105,6 +103,8 @@ menuItems.sort().forEach(item => {
 const notFound = () => {
     const notFoundContainer = document.createElement('div');
     notFoundContainer.classList.add('notFoundContainer');
+    
+    document.querySelector('.clearStorage').classList.add('d-none')
 
     notFoundContainer.innerHTML = /* HTML */ `
         <div class="alert alert-light" role="alert">
@@ -115,3 +115,9 @@ const notFound = () => {
 
     document.querySelector('.helper-container').append(notFoundContainer)
 }
+
+document.querySelector('.clearStorage').addEventListener('click', () => {
+    localStorage.clear()
+    document.querySelectorAll('.col').forEach(col => col.remove());
+    notFound()
+})
