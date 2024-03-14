@@ -3,7 +3,6 @@ window.onload = () => {
 
     getPix('random')
         .then(res => {
-            console.log(res);
             res.map(photo => createCard(photo))
         })
 }
@@ -118,9 +117,13 @@ const downloadImage = (url, filename) => {
 }
 
 
-let temporaryStorage = []
-
+let temporaryStorage = JSON.parse(localStorage.getItem('pixes')) ? JSON.parse(localStorage.getItem('pixes')) : [];
 const saveItem = (idPhoto) => {
+    document.querySelector('.bi-box2-heart').classList.add('shake');
+    setTimeout(() => {
+        document.querySelector('.bi-box2-heart').classList.remove('shake')
+    }, 300)
+
     let photo = {
         id: idPhoto
     }
@@ -128,3 +131,15 @@ const saveItem = (idPhoto) => {
 
     localStorage.setItem('pixes', JSON.stringify(temporaryStorage));
 }
+
+
+let menuItems = ['Animals', 'Nature', 'Cities', 'Flower', 'People']
+
+menuItems.sort().forEach(item => {
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    
+    const liElement = document.createElement('li');
+    liElement.innerHTML = `<a class="dropdown-item" role="button">${item}</a>` 
+
+    dropdownMenu.append(liElement);
+})

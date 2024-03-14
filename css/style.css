@@ -10,7 +10,7 @@ main {
     min-height: calc(100vh - 110px)!important;
 }
 
-.nav-link:hover {
+.nav-link:hover, a.dropdown-item:hover {
     color: var(--purple)!important;
 }
 
@@ -74,14 +74,46 @@ main {
 
 .card__icons a {
     transition: all 250ms ease;
+    position: relative;
 }
 
 .card__icons a:hover {
     margin-bottom: 5px;
 }
 
+.card__icons a:active {
+    top: 3px;
+}
+
 .bi-heart-fill {
     color: var(--purple) !important;
+}
+
+.shake {
+    animation: shake 300ms linear;
+}
+
+
+@keyframes shake {
+    0% {
+        color: var(--purple);
+        rotate: 0;
+    }
+    25% {
+        color: var(--purple);
+        rotate: 45deg;
+    }
+    50% {
+        color: var(--purple);
+        rotate: 0deg;
+    }
+    75% {
+        color: var(--purple);
+        rotate: -45deg;
+    }
+    100% {
+        rotate: 0deg;
+    }
 }
 
 @keyframes fadeIn {
